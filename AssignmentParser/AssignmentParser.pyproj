@@ -29,6 +29,23 @@
   <ItemGroup>
     <InterpreterReference Include="{2af0f10d-7135-4994-9156-5d01c9c11b7e}\2.7" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="css\main.css" />
+    <Content Include="index.html" />
+    <Content Include="js\.gitignore" />
+    <Content Include="js\.travis.yml" />
+    <Content Include="js\bower.json" />
+    <Content Include="js\Gruntfile.js" />
+    <Content Include="js\jquery.jscroll.js" />
+    <Content Include="js\jquery.jscroll.min.js" />
+    <Content Include="js\package.json" />
+    <Content Include="js\README.md" />
+    <Content Include="main.js" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="js\" />
+    <Folder Include="css\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>

@@ -1,0 +1,84 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
+    <link href="css/main.css?v=1.2" rel="stylesheet" />
+</head>
+<body>
+    <div ng-app="myApp" ng-controller="customersCtrl" class="row">
+        <div class="items-wrap" scrolly="loadMoreRecords()">
+
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10 col-md-offset-1">
+                    <div class="form-group">
+                        <label for="SearchText"><h3>Search</h3></label>
+                        <input type="text" class="form-control" id="SearchText" ng-model="searchText" placeholder="Search Text">
+                    </div>
+                </div>               
+            </div>
+            <div class="row">
+                <div ng-repeat="x in questions | filter:searchText" class="col-md-offset-1 col-md-10 col-md-offset-1">
+                    <div class="panel" ng-class="x.needReview == '1'?'panel-primary':'panel-default'">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-md-2"><h4>Question {{$index + 1}}</h4></div>
+                                <div class="col-md-2">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios_{{x.id}}" value="0" ng-model="x.needReview">
+                                            Not need review
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios_{{x.id}}" value="1" ng-model="x.needReview">
+                                            Need review
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            {{ x.name }}
+                            <hr />
+                            <div iv class="form-group">
+                                <div ng-repeat="answer in x.answers">
+                                    <div class="radio">
+                                        <label>
+                                            <input type="radio" name="optionsRadios_{{x.id}}" value="{{answer.id}}" ng-model="x.answerid">
+                                            {{answer.name}}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <button class="btn btn-sm btn-warning" ng-click="loadMoreRecords()">
+                    <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate">
+                    </span>
+                    Loading more
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</body>
+</html>
