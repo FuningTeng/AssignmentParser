@@ -34,3 +34,16 @@
     padding-bottom: 100px;
     text-align: center;
 }
+
+.scrollup {
+    width: 80px;
+    height: 50px;
+    position: fixed;
+    bottom: 50px;
+    right: 100px;
+    display: none;   
+}
+
+    .scrollup:hover {
+        cursor:pointer;
+    }

@@ -31,6 +31,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="css\main.css" />
+    <Content Include="DBConnect.php" />
+    <Content Include="DBupdate.php" />
     <Content Include="index.html" />
     <Content Include="js\.gitignore" />
     <Content Include="js\.travis.yml" />

@@ -1,29 +1,17 @@
 ﻿var app = angular.module('myApp', []);
-var myApp;
-myApp = myApp || (function () {
-    var pleaseWaitDiv = $('<div class="modal hide" id="pleaseWaitDialog" data-backdrop="static" data-keyboard="false"></div>');
-    return {
-        showPleaseWait: function () {
-            pleaseWaitDiv.modal();
-        },
-        hidePleaseWait: function () {
-            pleaseWaitDiv.modal('hide');
-        },
-    };
-})();
 app.directive('scrolly', function () {
     return {
         restrict: 'A',
         link: function (scope, element, attrs) {
             var raw = element[0];
-            console.log('loading directive');
-
             element.bind('scroll', function () {
-                console.log('in scroll');
-                console.log(raw.scrollTop + raw.offsetHeight);
-                console.log(raw.scrollHeight);
-                if (raw.scrollTop + raw.offsetHeight > raw.scrollHeight +10) {                  
-                        scope.$apply(attrs.scrolly);                                      
+                if (raw.scrollTop + raw.offsetHeight > raw.scrollHeight + 10) {
+                    scope.$apply(attrs.scrolly);
+                }
+                if (raw.scrollTop > 100) {
+                    $('.scrollup').fadeIn();
+                } else {
+                    $('.scrollup').fadeOut();
                 }
             });
         }
@@ -31,34 +19,67 @@ app.directive('scrolly', function () {
 });
 app.controller('customersCtrl', function ($scope, $http) {
     $scope.questions = [];
-    var page = 0, pagesize = 10;
+    var page = 0, pagesize = 50;
+    $scope.searchText = "";
+    $scope.assignmentNo = "";
     $scope.loadMoreRecords = function () {
-        if (page > 0) {
-            // myApp.showPleaseWait();
+        var queryBase = "http://127.0.0.1/assignment/AssignmentParser/AssignmentParser/DBConnect.php?";
+        var query = queryBase + "pagesize=" + pagesize + "&page=" + page;
+        if ($scope.searchText && $scope.searchText.length >= 3) {
+            query = queryBase + "pagesize=" + 500 + "&page=" + 0;
         }
-        $http.get("http://127.0.0.1/assignment/AssignmentParser/AssignmentParser/DBConnect.php?pagesize=" + 10 + "&page=" + page)
+        if ($scope.assignmentNo) {
+            query = query + "&assignmentNO=" + $scope.assignmentNo;
+        }
+        $http.get(query)
         .then(function (response) {
-            //myApp.hidePleaseWait();
             for (var i = 0; i < response.data.length; i++) {
                 $scope.questions.push(response.data[i]);
             }
             page++;
             for (var i = 0; i < $scope.questions.length; i++) {
                 $scope.$watch('questions[' + i + ']', function (newValue, oldValue) {
-                    //myApp.showPleaseWait();
                     //console.log("http://127.0.0.1/assignment/AssignmentParser/AssignmentParser/DBupdate.php?questionid=" + newValue.id
                     //    + "&answerid=" + newValue.answerid
                     //    + "&needReview=" + newValue.needReview);
-                    $http.get("http://127.0.0.1/assignment/AssignmentParser/AssignmentParser/DBupdate.php?questionid=" + newValue.id
-                        + "&answerid=" + newValue.answerid
-                        + "&needReview=" + newValue.needReview
-                        )
-                    .then(function (response) {
-                        //myApp.hidePleaseWait();
-                    });
+                    if (newValue) {
+                        $http.get("http://127.0.0.1/assignment/AssignmentParser/AssignmentParser/DBupdate.php?questionid=" + newValue.id
+                            + "&answerid=" + newValue.answerid
+                            + "&needReview=" + newValue.needReview
+                            )
+                        .then(function (response) {});
+                    }
+
                 }, true);
             }
         });
     }
     $scope.loadMoreRecords();
+    $scope.$watch('searchText', function (newValue, oldValue) {
+        if (newValue != oldValue && newValue && newValue.length > 3) {
+            $scope.questions = [];
+            page = 0;
+            $scope.loadMoreRecords();
+        } else if (!newValue) {
+            page = 0;
+            $scope.loadMoreRecords();
+        }
+    });
+    $scope.$watch('assignmentNo', function (newValue, oldValue) {
+        if (newValue != oldValue && newValue) {
+            $scope.questions = [];
+            page = 0;
+            $scope.loadMoreRecords();
+        }
+    });
+});
+$(document).ready(function () {
+
+    $('.scrollup').click(function () {
+        $(".items-wrap").animate({
+            scrollTop: 0
+        }, 600);
+        return false;
+    });
+
 });

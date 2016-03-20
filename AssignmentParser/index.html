@@ -6,26 +6,33 @@
     <title></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.2/angular.min.js"></script>
-    <link href="css/main.css?v=1.2" rel="stylesheet" />
+    <link href="css/main.css?v=1.3" rel="stylesheet" />
 </head>
 <body>
     <div ng-app="myApp" ng-controller="customersCtrl" class="row">
         <div class="items-wrap" scrolly="loadMoreRecords()">
-
             <div class="row">
                 <div class="col-md-offset-1 col-md-10 col-md-offset-1">
                     <div class="form-group">
-                        <label for="SearchText"><h3>Search</h3></label>
+                        <label for="SearchText">Search</label>
                         <input type="text" class="form-control" id="SearchText" ng-model="searchText" placeholder="Search Text">
                     </div>
-                </div>               
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10 col-md-offset-1">
+                    <div class="form-group">
+                        <label for="assignmentNo">Which assignment</label>
+                        <input type="text" class="form-control" id="assignmentNo" ng-model="assignmentNo" placeholder="Assignment NO">
+                    </div>
+                </div>
             </div>
             <div class="row">
                 <div ng-repeat="x in questions | filter:searchText" class="col-md-offset-1 col-md-10 col-md-offset-1">
                     <div class="panel" ng-class="x.needReview == '1'?'panel-primary':'panel-default'">
                         <div class="panel-heading">
                             <div class="row">
-                                <div class="col-md-2"><h4>Question {{$index + 1}}</h4></div>
+                                <div class="col-md-3"><h4>Assignment {{x.assignmentname}}, Question {{$index + 1}}</h4></div>
                                 <div class="col-md-2">
                                     <div class="radio">
                                         <label>
@@ -68,6 +75,10 @@
                     Loading more
                 </button>
             </div>
+            <button type="button" class="scrollup">
+                <span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Top
+            </button>
+
         </div>
     </div>
 
